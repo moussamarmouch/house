@@ -9,9 +9,7 @@ def hello():
 
 @app.route("/12")
 def titel2():
-    result_success = subprocess.check_output(
-                ["fling"], shell=True)
-    return result_success
+    return subprocess.Popen("fing", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
