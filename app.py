@@ -9,7 +9,7 @@ def hello():
 
 @app.route("/12")
 def titel2():
-    return subprocess.Popen("fing", shell=True, stdout=subprocess.PIPE).stdout.read()
+    return subprocess.Popen("fing -r 1", shell=True, stdout=subprocess.PIPE).stdout.read()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
