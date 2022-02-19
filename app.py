@@ -9,7 +9,8 @@ def hello():
 
 @app.route("/12")
 def titel2():
-    return subprocess.Popen("fing -r 1 -o table,html", shell=True, stdout=subprocess.PIPE).stdout.read()
+    subprocess.Popen("fing -r 1 -o log,csv,test.csv", shell=True, stdout=subprocess.PIPE).stdout.read()
+    return "test"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
