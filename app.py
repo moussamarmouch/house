@@ -4,7 +4,7 @@ from flask import Flask,render_template
 from mac_vendor_lookup import MacLookup
 app = Flask(__name__)
 
-# MacLookup().update_vendors()
+MacLookup().update_vendors()
 
 @app.route("/")
 def hello():
