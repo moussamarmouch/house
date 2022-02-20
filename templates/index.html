@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{{ site_title }}</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/materialize.min.css') }}" type="text/css" rel="stylesheet"
+          media="screen,projection"/>
+          <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet"
+          media="screen,projection"/>
+          
+
+</head>
+<body>
+<!--NAVIGATION BAR-->
+<nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">{{ site_title }}</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="">Home</a></li>
+            <li><a href="">MAC</a></li>
+        </ul>
+        <a data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+
+<!--CONTAINER-->
+<div class="container">
+    <h1 class="header center orange-text">{{ header }}</h1>
+    <p>MAC - Adresses</p>
+    <ul class="collection with-header">
+{#    loop through mac_list#}
+        {% for x in mac_list %}
+        <li class="collection-item">{{ x}}</li>
+    {% endfor %}
+    </ul>
+</div>
+{{mac_list}}
+
+<!--FOOTER-->
+<footer class="page-footer orange">
+</footer>
+
+</body>
+</html>
