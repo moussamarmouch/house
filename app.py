@@ -21,9 +21,11 @@ def titel2():
                 vendor = MacLookup().lookup(row[5])
             except KeyError:
                 vendor = " "
+
             yes = (row[5], vendor)
             mac.append(yes)
         csvfile.close
+
     return render_template('index.html',header='House', mac_list = mac)               
 
 if __name__ == "__main__":
