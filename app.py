@@ -15,8 +15,8 @@ def hello():
 def titel2():
     mac = []
     known = []
-    subprocess.Popen("fing -r 1 -o log,csv,data/test.csv", shell=True, stdout=subprocess.PIPE).stdout.read()
-    with open('data/test.csv', newline='') as csvfile, open('data/known.csv', newline='') as csvfile1:
+    with open('data/test.csv', "w+", newline='') as csvfile, open('data/known.csv', newline='') as csvfile1:
+        subprocess.Popen("fing -r 1 -o log,csv,data/test.csv", shell=True, stdout=subprocess.PIPE).stdout.read() 
         reader = csv.reader(csvfile, delimiter=';')
         reader1 = csv.reader(csvfile1, delimiter=';')
         for row in reader:

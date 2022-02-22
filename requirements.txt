@@ -1,3 +1,2 @@
 flask
 mac-vendor-lookup == 0.1.11
-flask_debugtoolbar
