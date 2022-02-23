@@ -26,7 +26,12 @@ def titel2():
             if know[0] in mac:
                 known.append(know[1])
     csvfile1.close
-    return render_template('index.html',header='House', mac_list = known, new_mac = mac)               
+    return render_template('index.html',header='House', mac_list = known, new_mac = mac)           
+
+def blacklist(x):
+    with open("data/blacklist.csv", "a" ) as csvfile2:
+        csvfile2.write(x)
+        csvfile2.close()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
