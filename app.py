@@ -1,9 +1,7 @@
 import subprocess
 import csv
 from flask import Flask,render_template
-from flask_debugtoolbar import DebugToolbarExtension
-import logging
-from mac_vendor_lookup import MacLookup
+
 
 app = Flask(__name__)
 
