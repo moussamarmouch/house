@@ -37,6 +37,11 @@
         <li class="collection-item">{{x}}</li>
         {% endfor %}
     </ul>
+    <ul class="collection with-header">
+        {% for x in new_mac %}
+        <li class="collection-item">{{x}} <button class="blacklist">ADD to blacklist</button></li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!--FOOTER-->

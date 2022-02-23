@@ -1,5 +1,6 @@
 import subprocess
 import csv
+from types import new_class
 from flask import Flask,render_template
 
 
@@ -18,13 +19,14 @@ def titel2():
         reader = csv.reader(csvfile, delimiter=';')
         reader1 = csv.reader(csvfile1, delimiter=';')
         for row in reader:
-            mac.append(row[5])
+            if row[5] not in mac:
+                mac.append(row[5])
         csvfile.close
         for know in reader1: 
             if know[0] in mac:
                 known.append(know[1])
     csvfile1.close
-    return render_template('index.html',header='House', mac_list = known)               
+    return render_template('index.html',header='House', mac_list = known, new_mac = mac)               
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
