@@ -2,3 +2,8 @@
     float: right;
     margin-left: 100px !important;
 }
+
+#but1{
+    display: flex;
+    justify-content: space-evenly !important;
+}
