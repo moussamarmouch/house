@@ -1,9 +1,12 @@
-.rechts{
-    float: right;
-    margin-left: 100px !important;
+.container{
+    background-color: #566246 !important;
 }
 
 #but1{
     display: flex;
     justify-content: space-evenly !important;
+}
+
+.inputtt{
+    display: none !important;
 }

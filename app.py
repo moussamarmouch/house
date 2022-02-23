@@ -7,11 +7,7 @@ from flask import Flask, flash,render_template
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
-    return "Hello World!"
-
-@app.route("/12")
-def titel2():
+def index():
     mac = []
     known = []
     black = []
@@ -36,9 +32,14 @@ def titel2():
     csvfile2.close()
     csvfile1.close()
 
-    return render_template('index.html',header='House', mac_list = known, new_mac = mac)         
+    return render_template('index.html',site_title="HOUSE", header='House', mac_list = known, new_mac = mac)         
 
-@app.route("/blacklist/<x>", methods = ['POST'])
+@app.route("/blacklist")
+def blacklisted_mac():
+    return render_template("blacklist.html", header='Blacklisted MAC Adressen')
+
+
+@app.route("/blacklis/<x>", methods = ['POST'])
 def blacklist(x):
     with open("data/blacklist.csv", "a" ) as csvfile2:
         csvfile2.write(x + "\n")

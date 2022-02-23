@@ -10,66 +10,70 @@
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
-    <link href="{{ url_for('static',filename='css/materialize.min.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
+    <link href="{{ url_for('static',filename='css/bootstrap.css') }}" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="{{ url_for('static',filename='css/pro/css/all.css') }}" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet" media="screen" />
 
 
 </head>
 
-<body>
+<body class="container bg-success">
     <!--NAVIGATION BAR-->
-    <nav class="light-blue lighten-1" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">{{ site_title }}</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="">Home</a></li>
-                <li><a href="">MAC</a></li>
-            </ul>
-            <a data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <h1 class="header center orange-text" >{{ header }}</h1>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Mac</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/blacklist">Blacklist</a>
+            </li>
+          </ul>
         </div>
-    </nav>
+      </nav>
 
     <!--CONTAINER-->
-    <div class="container">
-        <h1 class="header center orange-text">{{ header }}</h1>
-        <p>MAC - Adresses</p>
-        <ul class="collection with-header">
+    <div class="container bg-danger bg-gradient m">
+        <h3>MAC - Adresses <i class="fa-solid fa-alien"></i></h3>
+        <ul class="list-group">
             {% for x in mac_list %}
-            <li class="collection-item">{{x}}</li>
+            <li class="list-group-item">{{x}}</li>
             {% endfor %}
         </ul>
-        <ul class="collection with-header">
+        <hr><br>
+        <h3>Unknown Mac <i class="fa-solid fa-alien-8bit"></i></h3>
+        <ul class="list-group p-5">
             {% for x in new_mac %}
-            <li class="collection-item" id="but1">{{x}}
-                <div id="to-show" class="hide input-field col s12 inputtt">
-                    <input id="password" type="text" class="validate">
-                    <label for="password">Name</label>
+            <li class="list-group-item" id="but1">{{x}}
+                <div class="inputtt">
+                  <input type="text" class="form-control" placeholder="Username" aria-label="Username">
+                </div>
+                    <a class=""><i class="fa-solid fa-square-check"></i></a>
                 </div>
                 <div>
-                    <a id="show-element" class="btn-floating btn-small waves-effect waves-light blue"><i
-                            class="rechts material-icons">add</i></a>
-                    <a onclick="black('{{x}}')" class=" btn-floating btn-small waves-effect waves-light red"><i
-                            class="rechts material-icons">delete</i></a>
+                    <a class="flip"><i class="rechts fa-solid fa-plus"></i></a>
+                    <a onclick="black('{{x}}')" class=""><i class="rechts fa-solid fa-trash"></i></a>
                 </div>
             </li>
             {% endfor %}
         </ul>
     </div>
     <script>
-
-
-        document.getElementById('show-element').onclick = function () {
-            var element = document.getElementById('to-show');
-            if (element.className === 'hide input-field col s12 inputtt') {
-                element.className = 'show input-field col s12 inputtt';
-            } else {
-                element.className = 'hide input-field col s12 inputtt';
-            }
-        }
+    $(document).ready(function() {
+        $(".flip").click(function() {
+            $(".panel").slideToggle("slow");
+        });
+    });
 
         function black(x) {
-            fetch("/blacklist/" + x, {
+            fetch("/blacklis/" + x, {
                 method: "POST"
             })
 
