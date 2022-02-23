@@ -9,9 +9,9 @@
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet"
+    media="screen,projection"/>
     <link href="{{ url_for('static',filename='css/materialize.min.css') }}" type="text/css" rel="stylesheet"
-          media="screen,projection"/>
-          <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet"
           media="screen,projection"/>
           
 
@@ -39,10 +39,17 @@
     </ul>
     <ul class="collection with-header">
         {% for x in new_mac %}
-        <li class="collection-item">{{x}} <button onclick="blacklist(x)" class="blacklist">ADD to blacklist</button></li>
+        <li class="collection-item">{{x}} <a onclick="black('{{x}}')" class=" rechts btn-floating btn-small waves-effect waves-light red"><i class="rechts material-icons">delete</i></a></li>
         {% endfor %}
     </ul>
 </div>
+
+<script>
+function black(x){
+   fetch("/blacklist/" + x, {
+      method:"POST"
+})}
+</script>
 
 <!--FOOTER-->
 <footer class="page-footer orange">
