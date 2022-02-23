@@ -39,7 +39,7 @@
     </ul>
     <ul class="collection with-header">
         {% for x in new_mac %}
-        <li class="collection-item">{{x}} <button class="blacklist">ADD to blacklist</button></li>
+        <li class="collection-item">{{x}} <button onclick="blacklist(x)" class="blacklist">ADD to blacklist</button></li>
         {% endfor %}
     </ul>
 </div>
