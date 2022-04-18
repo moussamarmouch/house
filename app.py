@@ -65,5 +65,12 @@ def blacklist(mac):
         csvfile2.close()
     return titel2()
 
+@app.route("/add_know/<i>", methods = ['POST'])
+def add(i):
+    with open("data/know.csv", "a" ) as csvfile1:
+        csvfile1.write(i + "\n")
+        csvfile1.close()
+    return True
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
