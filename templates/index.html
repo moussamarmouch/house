@@ -70,7 +70,7 @@
                     <a onclick='this.parentNode.submit(); return false;' href="/12" type="submit" id="submit"
                         class="btn-floating btn-medium waves-effect waves-light light-green"><i type="submit"
                             class="material-icons">add_circle</i></a>
-                    <a onclick="black('{{x}}')" onclick=window.reload() class="btn-floating btn-medium waves-effect waves-light red ml-1"><i
+                    <a onclick="black('{{x}}')" class="btn-floating btn-medium waves-effect waves-light red ml-1"><i
                             class="material-icons">delete</i></a>
                 </form>
             </li>
@@ -83,7 +83,7 @@
             fetch("/blacklist/" + mac, {
                 method: "POST"
             })
-            console.log(mac)
+            window.location.reload()
         }
     </script>
 

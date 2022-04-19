@@ -17,9 +17,9 @@ def titel2():
     offline= []
     mac = []
     new = []
-    # with open('data/scan.csv', "w+", newline='') as csvfile, open('data/known.csv', newline='') as csvfile1, open("data/blacklist.csv", newline = '') as csvfile2:
-    with open('data/scan.csv', newline='') as scanfile, open('data/known.csv', newline='') as knownfile, open("data/blacklist.csv", newline = '') as blackfile:
-        # subprocess.Popen("fing -r 1 -o log,csv,data/scan.csv", shell=True, stdout=subprocess.PIPE).stdout.read() 
+    with open('data/scan.csv', "w+", newline='') as scanfile, open('data/known.csv', newline='') as knownfile, open("data/blacklist.csv", newline = '') as blackfile:
+    # with open('data/scan.csv', newline='') as scanfile, open('data/known.csv', newline='') as knownfile, open("data/blacklist.csv", newline = '') as blackfile:
+        subprocess.Popen("fing -r 1 -o log,csv,data/scan.csv", shell=True, stdout=subprocess.PIPE).stdout.read() 
         scan_file = csv.reader(scanfile, delimiter=';')
         known_file = csv.reader(knownfile, delimiter=';')
         black_file = csv.reader(blackfile, delimiter=";")
@@ -79,11 +79,13 @@ def titel2():
 @app.route("/blacklist")
 def blacklisted():
     macs = []
-    with open('data/blacklist.csv', newline='') as csvfile3:
+    with open('data/blacklist.csv', "r", newline='') as csvfile3:
         reader3 = csv.reader(csvfile3, delimiter=';')
         #blacklisted mac addressen
         for mac_black in reader3:
             macs.append(mac_black)
+        
+    csvfile3.close()
         
 
     return render_template('blacklist.html',header='Blacklist', blacklist_mac = macs)
@@ -109,7 +111,6 @@ def blacklist(mac):
 @app.route("/add_know/<i>", methods = ['POST'])
 def add(i):
     with open("data/know.csv", "a" ) as csvfile1:
-        # zinnetje = i[17:] + 
         csvfile1.write(i + "\n")
         csvfile1.close()
     return titel2()
