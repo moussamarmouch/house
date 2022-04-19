@@ -2,58 +2,74 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ site_title }}</title>
+  <title>{{ site_title }}</title>
 
-    <!-- CSS  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{{ url_for('static',filename='css/blacklist.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
-        <link href="{{ url_for('static',filename='css/bootstrap.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
-        <link href="{{ url_for('static',filename='css/pro/css/all.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{{ url_for('static',filename='css/blacklist.css') }}" type="text/css" rel="stylesheet"
+    media="screen,projection" />
+  <link href="{{ url_for('static',filename='css/bootstrap.css') }}" type="text/css" rel="stylesheet"
+    media="screen,projection" />
+  <link href="{{ url_for('static',filename='css/pro/css/all.css') }}" type="text/css" rel="stylesheet"
+    media="screen,projection" />
 </head>
 
 <body>
-    <!--NAVIGATION BAR-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Mac</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/blacklist">Blacklist</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown link
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
+  <!--NAVIGATION BAR-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Mac</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blacklist">Blacklist</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Dropdown link
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
+
+  <!-- Container -->
+  <div class="container">
     <h1 class="h2">Blacklisted Mac-Adressen </h1>
+    <ul class="collection with-header">
+      <h4 class="center">Blacklisted MAC Adressen</h4>
+      {% for b in blacklist_mac %}
+      <li class="collection-item mb-2">{{b}}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
 
-<footer class="page-footer orange">
-</footer>
+
+
+  <!-- Footer -->
+  <footer class="page-footer orange">
+  </footer>
 
 </body>
 
