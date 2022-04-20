@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  app:
+    network_mode: host #use bridged network
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000" # Forward the exposed port 5000 on the container to port 5000 on the host machine
+    restart: unless-stopped
+    volumes:
+      - .:/app 
