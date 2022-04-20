@@ -9,31 +9,33 @@
   <title>{{ site_title }}</title>
 
   <!-- CSS  -->
-    <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
-    <link href="{{ url_for('static',filename='css/materialize.min.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap-grid.min.css">
+  <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet"
+    media="screen,projection" />
+  <link href="{{ url_for('static',filename='css/materialize.min.css') }}" type="text/css" rel="stylesheet"
+    media="screen,projection" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap-grid.min.css">
 
 
 </head>
 
 <body>
   <!--NAVIGATION BAR-->
-      <nav class="light-blue lighten-1" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">{{ site_title }}</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="/12">Home</a></li>
-                <li><a href="/12">MAC</a></li>
-                <li><a href="blacklist">Blacklist</a></li>
-            </ul>
-            <a data-activates="nav-mobile" class="button-collapse d-none"><i class="material-icons">menu</i></a>
-        </div>
-    </nav>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">{{ site_title }}</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/">Home</a></li>
+        <li><a href="/">MAC</a></li>
+        <li><a href="#">Blacklist</a></li>
+        <li><a href="/known">Known</a></li>
+        <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">Logout</a></li>
+      </ul>
+      <a data-activates="nav-mobile" class="button-collapse d-none"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
 
   <!-- Container -->
   <div class="container">
@@ -42,12 +44,24 @@
       <h4 class="center">Blacklisted MAC Adressen</h4>
       {% for b in blacklist_mac %}
       <li class="collection-item mb-2">{{b}}
+        <form class="row" id="myform" method="POST">
+          <a onclick="remove('{{b}}')" class="btn-floating btn-medium waves-effect waves-light red ml-1"><i
+              class="material-icons">delete</i></a>
+        </form>
       </li>
       {% endfor %}
     </ul>
   </div>
 
-
+  <script>
+     function remove(mac) {
+      console.log("zwemmels")
+      fetch("/remblack/" + mac,{
+        method: "POST"
+      });
+      window.location.reload();
+    }
+  </script>
 
   <!-- Footer -->
   <footer class="page-footer orange">

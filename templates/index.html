@@ -30,6 +30,8 @@
                 <li><a href="#">Home</a></li>
                 <li><a href="">MAC</a></li>
                 <li><a href="blacklist">Blacklist</a></li>
+                <li><a href="/known">Known</a></li>
+                <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">Logout</a></li>
             </ul>
             <a data-activates="nav-mobile" class="button-collapse d-none"><i class="material-icons">menu</i></a>
         </div>
@@ -67,7 +69,7 @@
                 <form class="row" id="myform" method="POST">
                     <input class="col-11" type="text" name='name' id='name' placeholder='Name' />
                     <input type="hidden" name="mac_val" value="{{x}}">
-                    <a onclick='this.parentNode.submit(); return false;' href="/12" type="submit" id="submit"
+                    <a onclick='this.parentNode.submit(); return false;' href="/" type="submit" id="submit"
                         class="btn-floating btn-medium waves-effect waves-light light-green"><i type="submit"
                             class="material-icons">add_circle</i></a>
                     <a onclick="black('{{x}}')" class="btn-floating btn-medium waves-effect waves-light red ml-1"><i
