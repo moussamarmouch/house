@@ -1,6 +1,7 @@
 import subprocess
 import re
 import csv
+import sys
 from flask_login import login_required, current_user
 from flask import Flask, Blueprint, flash, render_template, request
 
@@ -142,13 +143,31 @@ def blacklist(mac):
 @main.route("/remblack/<mac>", methods = ['POST'])
 @login_required
 def remove(mac):
-    with open("house/data/blacklist.csv", "r") as csvfile5:
-        z = csvfile5.readlines()
-        z.remove(mac)
-        # reader6 = csv.reader(csvfile5, delimiter=';')
-        # for i in reader6:
-            
-        csvfile5.close()
+    print(mac, file=sys.stderr)
+    # l = list()
+    # with open("house/data/blacklist.csv", "r") as csvfile5:
+    #     reader6 = csv.reader(csvfile5, delimiter=';')
+    #     for i in reader6:
+    #         string = str(i).strip("[").strip("]").strip("'")
+    #         l.append(string)
+    #         print(string, file=sys.stderr)
+    #         if string == mac:
+    #             print(string, file=sys.stderr)
+    #             print(l, file=sys.stderr)
+    #             l.remove(mac)
+    #     with open("house/data/blacklist.csv", "w") as csvfile8:
+    #         writer = csv.writer(csvfile8, delimiter=(";"))
+    #         for xs in l:
+    #             print(xs, file=sys.stderr)
+    #             writer.writerow(xs)
+    with open("house/data/blacklist.csv", "r") as csvfile5, open("house/data/blacklist.csv", "w") as csvfile8:
+        write = csv.writer(csvfile8)
+        for row in csv.reader(csvfile5):
+            if row != mac:
+                write.writerow(row)
+
+    csvfile8.close()        
+    csvfile5.close()
     return index()
 
 @main.route("/add_know/<i>", methods = ['POST'])
