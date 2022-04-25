@@ -1,51 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+    {% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{{ site_title }}</title>
-
-    <!-- CSS  -->
-    <link href="{{ url_for('static',filename='css/main.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
-    <link href="{{ url_for('static',filename='css/materialize.min.css') }}" type="text/css" rel="stylesheet"
-        media="screen,projection" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap-grid.min.css">
-
-
-</head>
-
-<body>
-    <!--NAVIGATION BAR-->
-    <nav class="light-blue lighten-1" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" class="brand-logo">{{ site_title }}</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="#">Home</a></li>
-                <li><a href="">MAC</a></li>
-                <li><a href="blacklist">Blacklist</a></li>
-                <li><a href="/known">Known</a></li>
-                <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">Logout</a></li>
-            </ul>
-            <a data-activates="nav-mobile" class="button-collapse d-none"><i class="material-icons">menu</i></a>
-        </div>
-    </nav>
-
-    <!--CONTAINER-->
-    <div class="container">
+    {% block content %}
         <h1 class="header center orange-text">{{ header }}</h1>
         <ul class="collection with-header">
             <h4 class="center">MAC - ONLINE</h4>
             <p class="center">Mac-address;name</p>
             <hr>
             {% for m in mac_list %}
-            <li class="collection-item mb-2">{{m}}
+            <li class="bg-light collection-item mb-2">{{m}}
             </li>
             {% endfor %}
         </ul>
@@ -55,7 +17,7 @@
             <p class="center">Mac-address;name</p>
             <hr>
             {% for m in offline %}
-            <li class="collection-item mb-2">{{m}}
+            <li class="bg-light collection-item mb-2">{{m}}
             </li>
             {% endfor %}
         </ul>
@@ -65,7 +27,7 @@
             <p class="center">Mac-address;hostname;vendorname</p>
             <hr>
             {% for x in new_mac %}
-            <li class="lijst collection-item">{{x}}
+            <li class="bg-light collection-item">{{x}}
                 <form class="row" id="myform" method="POST">
                     <input class="col-11" type="text" name='name' id='name' placeholder='Name' />
                     <input type="hidden" name="mac_val" value="{{x}}">
@@ -88,11 +50,4 @@
             window.location.reload()
         }
     </script>
-
-    <!--FOOTER-->
-    <footer class="page-footer orange">
-    </footer>
-
-</body>
-
-</html>
+{% endblock %}

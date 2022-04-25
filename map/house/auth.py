@@ -24,7 +24,7 @@ def signup():
 def signup_post():
 
     # code to validate and add user to database goes here
-    name = request.form.get('name')
+    name = request.form.get('user')
     password = request.form.get('password')
 
     user = User.query.filter_by(name=name).first() # if this returns a user, then the email already exists in database
@@ -48,7 +48,7 @@ def signup_post():
 @auth.route('/login', methods=['POST'])
 def login_post():
     # login code goes here
-    name = request.form.get('name')
+    name = request.form.get('user')
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
 
@@ -61,4 +61,4 @@ def login_post():
         return redirect(url_for('auth.login')) # if the user doesn't exist or password is wrong, reload the page
 
     login_user(user, remember=remember)
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('main.index'))
