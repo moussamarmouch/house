@@ -18,7 +18,7 @@ RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 ENV LC_ALL en_US.UTF-8 
+# flask variables
 ENV FLASK_APP=house
 ENV FLASK_DEBUG=1
-# # RUN app
 CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]

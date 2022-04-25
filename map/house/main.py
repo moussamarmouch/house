@@ -1,24 +1,19 @@
 import subprocess
-import re
 import csv
 import sys
 from flask_login import login_required, current_user
 from flask import Flask, Blueprint, flash, render_template, request
-
 from house.auth import login
 
 
 main = Blueprint('main', __name__)
 
-# @main.route('/')
-# @login_required
-# def index():
-#     return render_template('index.html')
 
 @main.route('/profile')
 @login_required
 def profile():
     return render_template('profile.html')
+
 
 @main.route("/")
 @login_required
@@ -27,69 +22,59 @@ def index():
     bek = []
     scan = []
     known = []
-    online= []
+    online = []
     black = []
-    offline= []
+    offline = []
     mac = []
     new = []
-    with open('house/data/scan.csv', "w+", newline='') as scanfile, open('house/data/known.csv', newline='') as knownfile, open("house/data/blacklist.csv", newline = '') as blackfile:
-    # with open('house/data/scan.csv', newline='') as scanfile, open('house/data/known.csv', newline='') as knownfile, open("house/data/blacklist.csv", newline = '') as blackfile:
-        subprocess.Popen("fing -r 1 -o log,csv,house/data/scan.csv", shell=True, stdout=subprocess.PIPE).stdout.read() 
+    with open('house/data/scan.csv', "w+", newline='') as scanfile, open('house/data/known.csv', newline='') as knownfile, open("house/data/blacklist.csv", newline='') as blackfile:
+        # with open('house/data/scan.csv', newline='') as scanfile, open('house/data/known.csv', newline='') as knownfile, open("house/data/blacklist.csv", newline = '') as blackfile:
+        subprocess.Popen("fing -r 1 -o log,csv,house/data/scan.csv",
+                         shell=True, stdout=subprocess.PIPE).stdout.read()
         scan_file = csv.reader(scanfile, delimiter=';')
         known_file = csv.reader(knownfile, delimiter=';')
         black_file = csv.reader(blackfile, delimiter=";")
-        
+
         # add mac to blaclist
         for i in black_file:
             black.append(i[0])
 
-
-        #add macs from scan
+        # add macs from scan
         for i in scan_file:
             zin = i[5] + ";" + i[4] + ";" + i[6]
             scan.append(zin)
             bekend.append(i[5])
-            #naam+mac
+            # naam+mac
 
-        
-       #add macs to known 
+       # add macs to known
         for i in known_file:
             zin = i[0] + ";" + i[3]
             bek.append(i[0])
             known.append(zin)
-    
 
-        #online list
+        # online list
         for mac in known:
             if mac[:17] not in black:
                 if mac[:17] in bekend:
                     online.append(mac)
-        
 
-        #offline list
+        # offline list
         for mac_add in known:
             if mac_add[:17] not in black:
                 if mac_add[:17] not in bekend:
                     offline.append(mac_add)
 
-
-        #new mac list
+        # new mac list
         for macc in scan:
             if macc[:17] not in black:
                 if macc[:17] not in bek:
                     new.append(macc)
 
-
-# cursor parking
-# 
-
-#             
     scanfile.close()
     knownfile.close()
     blackfile.close()
+    return render_template('index.html', header='House', mac_list=online, offline=offline, new_mac=new)
 
-    
-    return render_template('index.html',header='House', mac_list = online, offline=offline, new_mac =  new)
 
 @main.route("/known")
 @login_required
@@ -97,13 +82,12 @@ def known():
     macs = []
     with open('house/data/known.csv', "r", newline='') as csvfile3:
         known = csv.reader(csvfile3, delimiter=';')
-        #blacklisted mac addressen
+        # blacklisted mac addressen
         for mac_known in known:
             macs.append(mac_known)
-        
-    csvfile3.close()
-    return render_template('known.html',header='Known Macs', known_mac = macs)
 
+    csvfile3.close()
+    return render_template('known.html', header='Known Macs', known_mac=macs)
 
 
 @main.route("/blacklist")
@@ -112,14 +96,14 @@ def blacklisted():
     macs = []
     with open('house/data/blacklist.csv', "r", newline='') as csvfile3:
         reader3 = csv.reader(csvfile3, delimiter=';')
-        #blacklisted mac addressen
+        # blacklisted mac addressen
         for mac_black in reader3:
             l = str(mac_black).strip("[").strip("]").strip("'")
             macs.append(l)
-        
+
     csvfile3.close()
-    return render_template('blacklist.html',header='Blacklist', blacklist_mac = macs)
-         
+    return render_template('blacklist.html', header='Blacklist', blacklist_mac=macs)
+
 
 @main.route('/', methods=['POST'])
 @login_required
@@ -132,51 +116,35 @@ def my_form_post():
         csvfile1.close()
     return index()
 
-@main.route("/blacklist/<mac>", methods = ['POST'])
+
+@main.route("/blacklist/<mac>", methods=['POST'])
 @login_required
 def blacklist(mac):
-    with open("house/data/blacklist.csv", "a" ) as csvfile2:
+    with open("house/data/blacklist.csv", "a") as csvfile2:
         csvfile2.write(mac[:17] + "\n")
         csvfile2.close()
     return index()
 
-@main.route("/remblack/<mac>", methods = ['POST'])
+
+@main.route("/remblack/<mac>", methods=['POST'])
 @login_required
 def remove(mac):
     print(mac, file=sys.stderr)
-    # l = list()
-    # with open("house/data/blacklist.csv", "r") as csvfile5:
-    #     reader6 = csv.reader(csvfile5, delimiter=';')
-    #     for i in reader6:
-    #         string = str(i).strip("[").strip("]").strip("'")
-    #         l.append(string)
-    #         print(string, file=sys.stderr)
-    #         if string == mac:
-    #             print(string, file=sys.stderr)
-    #             print(l, file=sys.stderr)
-    #             l.remove(mac)
-    #     with open("house/data/blacklist.csv", "w") as csvfile8:
-    #         writer = csv.writer(csvfile8, delimiter=(";"))
-    #         for xs in l:
-    #             print(xs, file=sys.stderr)
-    #             writer.writerow(xs)
     with open("house/data/blacklist.csv", "r") as csvfile5, open("house/data/blacklist.csv", "w") as csvfile8:
         write = csv.writer(csvfile8)
         for row in csv.reader(csvfile5):
             if row != mac:
                 write.writerow(row)
 
-    csvfile8.close()        
+    csvfile8.close()
     csvfile5.close()
     return index()
 
-@main.route("/add_know/<i>", methods = ['POST'])
+
+@main.route("/add_know/<i>", methods=['POST'])
 @login_required
 def add(i):
-    with open("house/data/know.csv", "a" ) as csvfile1:
+    with open("house/data/know.csv", "a") as csvfile1:
         csvfile1.write(i + "\n")
         csvfile1.close()
     return index()
-
-# if __name__ == "__main__":
-#     app.run(host='0.0.0.0', debug=True)
