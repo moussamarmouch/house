@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 # Update and install python
 RUN apt-get update -y && \
     apt-get install -y python3-pip python3 && apt-get -y install locales
-# ENTRYPOINT ["python3"]
+# create folder 
 RUN mkdir /app
 ADD . /app
 WORKDIR /app
@@ -21,4 +21,5 @@ ENV LC_ALL en_US.UTF-8
 # flask variables
 ENV FLASK_APP=house
 ENV FLASK_DEBUG=1
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+# run flask
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"] 
