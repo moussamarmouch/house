@@ -8,37 +8,23 @@ from house.auth import login
 
 main = Blueprint('main', __name__)
 
-
-@main.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html')
-
-
 @main.route("/")
 @login_required
 def index():
-    bekend = []
-    bek = []
-    scan = []
-    known = []
-    online = []
-    black = []
-    offline = []
-    mac = []
-    new = []
     with open('house/data/scan.csv', "w+", newline='') as scanfile, open('house/data/known.csv', newline='') as knownfile, open("house/data/blacklist.csv", newline='') as blackfile:
-        # with open('house/data/scan.csv', newline='') as scanfile, open('house/data/known.csv', newline='') as knownfile, open("house/data/blacklist.csv", newline = '') as blackfile:
         subprocess.Popen("fing -r 1 -o log,csv,house/data/scan.csv",
                          shell=True, stdout=subprocess.PIPE).stdout.read()
         scan_file = csv.reader(scanfile, delimiter=';')
         known_file = csv.reader(knownfile, delimiter=';')
         black_file = csv.reader(blackfile, delimiter=";")
 
+        black = []
         # add mac to blaclist
         for i in black_file:
             black.append(i[0])
 
+        bekend = []
+        scan = []
         # add macs from scan
         for i in scan_file:
             zin = i[5] + ";" + i[4] + ";" + i[6]
@@ -46,24 +32,30 @@ def index():
             bekend.append(i[5])
             # naam+mac
 
+        bek = []
+        known = []
        # add macs to known
         for i in known_file:
             zin = i[0] + ";" + i[3]
             bek.append(i[0])
             known.append(zin)
 
+
+        online = []
         # online list
         for mac in known:
             if mac[:17] not in black:
                 if mac[:17] in bekend:
                     online.append(mac)
 
+        offline = []
         # offline list
         for mac_add in known:
             if mac_add[:17] not in black:
                 if mac_add[:17] not in bekend:
                     offline.append(mac_add)
 
+        new = []
         # new mac list
         for macc in scan:
             if macc[:17] not in black:
@@ -93,10 +85,9 @@ def known():
     macs = []
     with open('house/data/known.csv', "r", newline='') as csvfile3:
         known = csv.reader(csvfile3)
-        # blacklisted mac addressen
+        # known mac addressen
         for mac_known in known:
             macs.append(str(mac_known).strip("[").strip("]").replace("'",""))
-    # print(macs, file=sys.stderr)
     csvfile3.close()
     return render_template('known.html', header='Known Macs', known_mac=macs)
 
@@ -153,16 +144,3 @@ def remove_known(mac):
     csvfile9.close()
     csvfile10.close()
     return known()
-
-
-@main.route("/add_know/", methods=['POST'])
-@login_required
-def add():
-    text = request.form['name']
-    mac = request.form['mac_val']
-    print((text, mac), file=sys.stderr)
-    processed_text = mac + ";" + text
-    with open('house/data/known.csv', "a") as csvfile1:
-        csvfile1.write(processed_text + "\n")
-        csvfile1.close()
-    return index()
