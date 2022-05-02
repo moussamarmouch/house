@@ -75,17 +75,28 @@ def index():
     blackfile.close()
     return render_template('index.html', header='House', mac_list=online, offline=offline, new_mac=new)
 
+@main.route('/', methods=['POST'])
+@login_required
+def my_form_post():
+    text = request.form['name']
+    mac = request.form['mac_val']
+    print((text, mac), file=sys.stderr)
+    processed_text = mac + ";" + text
+    with open('house/data/known.csv', "a") as csvfile1:
+        csvfile1.write(processed_text + "\n")
+        csvfile1.close()
+    return index()
 
 @main.route("/known")
 @login_required
 def known():
     macs = []
     with open('house/data/known.csv', "r", newline='') as csvfile3:
-        known = csv.reader(csvfile3, delimiter=';')
+        known = csv.reader(csvfile3)
         # blacklisted mac addressen
         for mac_known in known:
-            macs.append(mac_known)
-
+            macs.append(str(mac_known).strip("[").strip("]").replace("'",""))
+    # print(macs, file=sys.stderr)
     csvfile3.close()
     return render_template('known.html', header='Known Macs', known_mac=macs)
 
@@ -104,19 +115,6 @@ def blacklisted():
     csvfile3.close()
     return render_template('blacklist.html', header='Blacklist', blacklist_mac=macs)
 
-
-@main.route('/', methods=['POST'])
-@login_required
-def my_form_post():
-    text = request.form['name']
-    mac = request.form['mac_val']
-    processed_text = mac + ";" + text
-    with open('house/data/known.csv', "a") as csvfile1:
-        csvfile1.write(processed_text + "\n")
-        csvfile1.close()
-    return index()
-
-
 @main.route("/blacklist/<mac>", methods=['POST'])
 @login_required
 def blacklist(mac):
@@ -129,22 +127,42 @@ def blacklist(mac):
 @main.route("/remblack/<mac>", methods=['POST'])
 @login_required
 def remove(mac):
-    print(mac, file=sys.stderr)
-    with open("house/data/blacklist.csv", "r") as csvfile5, open("house/data/blacklist.csv", "w") as csvfile8:
-        write = csv.writer(csvfile8)
+    r = []
+    with open("house/data/blacklist.csv", "r") as csvfile5:
         for row in csv.reader(csvfile5):
-            if row != mac:
-                write.writerow(row)
-
+            r.append(str(row).replace("'","").strip("[").strip("]"))
+    with open("house/data/blacklist.csv", "w") as csvfile8:
+        for i in r:
+            if i != mac:
+                csvfile8.write(i + "\n")
     csvfile8.close()
     csvfile5.close()
-    return index()
+    return blacklist()
 
-
-@main.route("/add_know/<i>", methods=['POST'])
+@main.route("/remknown/<mac>", methods=['POST'])
 @login_required
-def add(i):
-    with open("house/data/know.csv", "a") as csvfile1:
-        csvfile1.write(i + "\n")
+def remove_known(mac):
+    r = []
+    with open("house/data/known.csv", "r") as csvfile9:
+        for row in csv.reader(csvfile9):
+            r.append(str(row).replace("'","").strip("[").strip("]"))
+    with open("house/data/known.csv", "w") as csvfile10:
+        for i in r:
+            if i != mac:
+                csvfile10.write(i + "\n")
+    csvfile9.close()
+    csvfile10.close()
+    return known()
+
+
+@main.route("/add_know/", methods=['POST'])
+@login_required
+def add():
+    text = request.form['name']
+    mac = request.form['mac_val']
+    print((text, mac), file=sys.stderr)
+    processed_text = mac + ";" + text
+    with open('house/data/known.csv', "a") as csvfile1:
+        csvfile1.write(processed_text + "\n")
         csvfile1.close()
     return index()
