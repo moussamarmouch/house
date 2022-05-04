@@ -12,6 +12,7 @@ main = Blueprint('main', __name__)
 @login_required
 def index():
     with open('house/data/scan.csv', "w+", newline='') as scanfile, open('house/data/known.csv', newline='') as knownfile, open("house/data/blacklist.csv", newline='') as blackfile:
+        # excute scan 1 round, to csv file in house/data/..
         subprocess.Popen("fing -r 1 -o log,csv,house/data/scan.csv",
                          shell=True, stdout=subprocess.PIPE).stdout.read()
         scan_file = csv.reader(scanfile, delimiter=';')
@@ -85,6 +86,7 @@ def known():
     macs = []
     with open('house/data/known.csv', "r", newline='') as csvfile3:
         known = csv.reader(csvfile3)
+
         # known mac addressen
         for mac_known in known:
             macs.append(str(mac_known).strip("[").strip("]").replace("'",""))
@@ -98,6 +100,7 @@ def blacklisted():
     macs = []
     with open('house/data/blacklist.csv', "r", newline='') as csvfile3:
         reader3 = csv.reader(csvfile3, delimiter=';')
+
         # blacklisted mac addressen
         for mac_black in reader3:
             l = str(mac_black).strip("[").strip("]").strip("'")
@@ -108,6 +111,7 @@ def blacklisted():
 
 @main.route("/blacklist/<mac>", methods=['POST'])
 @login_required
+# add MAC to blacklist
 def blacklist(mac):
     with open("house/data/blacklist.csv", "a") as csvfile2:
         csvfile2.write(mac[:17] + "\n")
@@ -117,6 +121,7 @@ def blacklist(mac):
 
 @main.route("/remblack/<mac>", methods=['POST'])
 @login_required
+# remove mac out of the blacklist
 def remove(mac):
     r = []
     with open("house/data/blacklist.csv", "r") as csvfile5:
@@ -132,6 +137,7 @@ def remove(mac):
 
 @main.route("/remknown/<mac>", methods=['POST'])
 @login_required
+# remove known mac in known table
 def remove_known(mac):
     r = []
     with open("house/data/known.csv", "r") as csvfile9:

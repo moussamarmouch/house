@@ -7,9 +7,14 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
 
+
+    # Encrypt passwords to database
     app.config['SECRET_KEY'] = 'zwemmelindetabon911'
+
+    # url database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
+    # ready up db
     db.init_app(app)
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

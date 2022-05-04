@@ -47,7 +47,7 @@ def signup_post():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    # login code goes here
+    # get field from form
     name = request.form.get('user')
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
